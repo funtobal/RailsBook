@@ -5,7 +5,8 @@ class BooksController < ApplicationController
   
   # GET /books or /books.json
   def index
-    @books = Book.all
+    @search = Book.ransack(params[:q])
+    @books = @search.result
   end
 
   # GET /books/1 or /books/1.json
@@ -14,7 +15,6 @@ class BooksController < ApplicationController
 
   # GET /books/new
   def new
-    #@book = Book.new
     @book = current_user.books.build
   end
 
@@ -24,7 +24,6 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
-    #@book = Book.new(book_params)
     @book = current_user.books.build(book_params)
 
     respond_to do |format|
